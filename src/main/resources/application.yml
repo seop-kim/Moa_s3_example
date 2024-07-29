@@ -34,7 +34,7 @@ cloud:
       access-key: ON_SECRET
       secret-key: ON_SECRET
     region:
-      static: ap-northeast-2
+      static: ON_SECRET
       auto: false
     stack:
       auto: false
