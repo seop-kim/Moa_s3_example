@@ -30,6 +30,9 @@ public class BucketService {
     }
 
     public void read(String fileName) {
+        // TODO
+        //   s3에서 데이터를 조회하는 것은 fullPath가 아닌 keyName으로 조회를 한다.
+        //   Image는 path만이 아닌 keyName도 보관을 해야한다.
         boolean check = amazonS3Client.doesObjectExist(config.getBucket(), fileName);
         System.out.println("check = " + check);
         if (!check) {
