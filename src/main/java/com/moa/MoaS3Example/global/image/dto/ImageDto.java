@@ -15,7 +15,7 @@ public record ImageDto(Long id) {
     public static ImageDto.Response of(Image image) {
         return ImageDto.Response.builder()
                 .id(image.getId())
-                .originUrl(image.getOriginUrl())
+                .originUrl(image.getKeyName())
                 .createAt(image.getCreateAt())
                 .build();
     }

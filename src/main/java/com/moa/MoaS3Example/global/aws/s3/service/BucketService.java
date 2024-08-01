@@ -26,15 +26,16 @@ public class BucketService {
     private final BucketConfig config;
 
     public BucketDto.Response upload(MultipartFile file) {
-        return BucketDto.Response.builder().url(uploadS3(file)).build();
+        return BucketDto.of(uploadS3(file));
     }
 
-    public void read(String fileName) {
+    public void read(String keyName) {
         // TODO
         //   s3에서 데이터를 조회하는 것은 fullPath가 아닌 keyName으로 조회를 한다.
         //   Image는 path만이 아닌 keyName도 보관을 해야한다.
-        boolean check = amazonS3Client.doesObjectExist(config.getBucket(), fileName);
-        System.out.println("check = " + check);
+        //    FIXME
+        //      KeyName으로 저장하고 KeyName로 컨트롤한다.
+        boolean check = amazonS3Client.doesObjectExist(config.getBucket(), keyName);
         if (!check) {
             throw new IllegalArgumentException("has not image data");
         }
@@ -66,9 +67,6 @@ public class BucketService {
 
         log.info("Bucket Service uploadFileName : " + keyName);
 
-        String fullUrl = amazonS3Client.getUrl(config.getBucket(), keyName).toString();
-        log.info("Bucket Service fullUrl : " + fullUrl);
-
-        return fullUrl;
+        return keyName;
     }
 }

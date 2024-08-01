@@ -26,8 +26,8 @@ public class BoardService {
         Board board = Board.create(request);
         boardRepository.save(board);
 
-        for (String image : request.images()) {
-            imageService.save(board, image);
+        for (String imageKeyName : request.images()) {
+            imageService.save(board, imageKeyName);
         }
 
         return AddBoardDto.Response.builder().id(board.getId()).build();

@@ -17,10 +17,10 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final BucketService bucketService;
 
-    public Long save(BaseEntity entity, String url) {
-        validateImageUrl(url);
+    public Long save(BaseEntity entity, String keyName) {
+        validateUseImage(keyName);
         validateEntityId(entity);
-        Image image = Image.create(entity, url);
+        Image image = Image.create(entity, keyName);
         imageRepository.save(image);
         return image.getId();
     }
@@ -35,7 +35,7 @@ public class ImageService {
         }
     }
 
-    private void validateImageUrl(String url) {
-        bucketService.read(url);
+    private void validateUseImage(String keyName) {
+        bucketService.read(keyName);
     }
 }

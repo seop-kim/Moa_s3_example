@@ -19,23 +19,19 @@ public class Image extends BaseEntity {
 
     private Long entityId;
 
-    private String originUrl;
+    private String keyName;
 
-    private String lowUrl;
 
-    public static Image create(BaseEntity entity, String url) {
+    public static Image create(BaseEntity entity, String keyName) {
         return Image.builder()
                 .entityType(EntityType.getEntityType(entity))
                 .entityId(entity.getId())
-                .originUrl(url)
+                .keyName(keyName)
                 .build();
     }
 
-    public void modOriginUrl(String url) {
-        this.originUrl = url;
+    public void modKeyName(String keyName) {
+        this.keyName = keyName;
     }
 
-    public void modLowUrl(String url) {
-        this.lowUrl = url;
-    }
 }
