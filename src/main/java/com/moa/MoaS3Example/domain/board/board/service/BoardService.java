@@ -5,6 +5,8 @@ import com.moa.MoaS3Example.domain.board.board.dto.FindBoardDto;
 import com.moa.MoaS3Example.domain.board.board.dto.FindBoardDto.Response;
 import com.moa.MoaS3Example.domain.board.board.entity.Board;
 import com.moa.MoaS3Example.domain.board.board.repository.BoardRepository;
+import com.moa.MoaS3Example.global.exception.exception.BusinessException;
+import com.moa.MoaS3Example.global.exception.message.FailHttpMessage;
 import com.moa.MoaS3Example.global.image.dto.ImageDto;
 import com.moa.MoaS3Example.global.image.entity.Image;
 import com.moa.MoaS3Example.global.image.service.ImageService;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -26,8 +29,13 @@ public class BoardService {
         Board board = Board.create(request);
         boardRepository.save(board);
 
+
         for (String imageKeyName : request.images()) {
             imageService.save(board, imageKeyName);
+        }
+
+        if (request.images().size() == 1) {
+            throw new BusinessException(FailHttpMessage.Image.BAD_REQUEST);
         }
 
         return AddBoardDto.Response.builder().id(board.getId()).build();
@@ -38,6 +46,10 @@ public class BoardService {
         for (Board board : boardRepository.findAll()) {
             List<Image> findAllImage = imageService.findAll(board);
             responses.add(FindBoardDto.of(board, findAllImage.stream().map(ImageDto::of).collect(Collectors.toList())));
+        }
+
+        if (responses.size() == 1) {
+            throw new BusinessException(FailHttpMessage.Board.BAD_REQUEST);
         }
         return responses;
     }

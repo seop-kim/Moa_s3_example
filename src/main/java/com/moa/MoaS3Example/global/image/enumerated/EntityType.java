@@ -2,6 +2,8 @@ package com.moa.MoaS3Example.global.image.enumerated;
 
 import com.moa.MoaS3Example.domain.board.board.entity.Board;
 import com.moa.MoaS3Example.global.common.entity.BaseEntity;
+import com.moa.MoaS3Example.global.exception.exception.BusinessException;
+import com.moa.MoaS3Example.global.exception.message.FailHttpMessage;
 import com.moa.MoaS3Example.global.image.entity.Image;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.proxy.HibernateProxy;
@@ -26,7 +28,7 @@ public enum EntityType {
             }
         }
 
-        throw new IllegalArgumentException("no matching entity type");
+        throw new BusinessException(FailHttpMessage.Image.BAD_REQUEST);
     }
 
     private static Class<?> getClassType(BaseEntity entityObj) {
